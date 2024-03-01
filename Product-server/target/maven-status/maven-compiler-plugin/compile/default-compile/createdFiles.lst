@@ -1,0 +1,10 @@
+com\product\utils\DatabaseConnection.class
+com\product\Configuration.class
+com\product\models\dto\StatusDto.class
+com\product\utils\SQLDatabase.class
+com\product\filters\CORSFilter.class
+com\product\utils\database\ProductDAO.class
+com\product\listeners\ContextListener.class
+com\product\utils\DateTimeFormatter.class
+com\product\controllers\ProductController.class
+com\product\models\Product.class
