@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import ProductData from './productData';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { toast } from "react-toastify";
 import './style.css';
 import axios from 'axios';
 
@@ -19,11 +20,8 @@ const Product = () => {
         setDisplayDetail([{...Product}])
     }
     useEffect(() =>{
-        axios.get("http://localhost:8080/Product-server/api/product")
-        .then((res) => setDetail(res.data))
-        .catch((err) => alert(err))
+        axios.get("http://localhost:8080/Product-server/api/product").then((res) => setDetail(res.data)).catch((err) => alert(err))
     }, [detail]);
-    console.log(detail)
     const handleEdit = (id) => {
         const dt = detail.filter(item => item.id == id)
         if(dt !== undefined)
@@ -35,11 +33,9 @@ const Product = () => {
             setPrice(dt[0].price);
             setDate(dt[0].createDate);
 
-
         }
     }
     const handleDelete = async (id) => {
-        
         if(id>=0)
         {
             if(window.confirm ("Are you sure to delete this item?")){
@@ -50,6 +46,7 @@ const Product = () => {
         
     }
     const handleSave = (p) => {
+
         let error = '';
         if(name === '')
         error += 'Name is required, ';
@@ -62,7 +59,7 @@ const Product = () => {
         const dt = [...detail];
         const newObject = {
             id: detail.length+1,
-		    name: name,
+		    productName: name,
 		    quantity: quantity,
 		    price: price,
 		    createDate: date,
@@ -76,21 +73,26 @@ const Product = () => {
         
     }
 
-    const handleUpdate = () => {
-        const index = detail.map((item) => {
-            return item.id
-        }).indexOf(id);
+    // const handleUpdate = async (id) => {
+        // const res = await axios.put(
+        //     `/api/products?id=${detail.id}&name=${detail.productName}&quantity=${detail.quantity}&price=${detail.price}`
+        //   );
+        //   setDetail(res.data)
+        // const index = detail.map((item) => {
+        //     return item.id
+        // }).indexOf(id);
+        
+        // const dt = [...detail];
+        // dt[index].productName = name;
+        // dt[index].quantity = quantity;
+        // dt[index].price = price;
+        // // dt[index].createDate = date;
 
-        const dt = [...detail];
-        dt[index].name = name;
-        dt[index].quantity = quantity;
-        dt[index].price = price;
-        dt[index].createDate = date;
+        // setDetail(dt);
+        // handleClear();
+    
 
-        setDetail(dt);
-        handleClear();
-
-    }
+    // }
     const handleClear = () => {
         setId(0);
             setName('');
@@ -129,8 +131,6 @@ const Product = () => {
                 <button className='btn btn-primary' onClick={() => handleUpdate()}>Update</button>
 
             }
-            
-            
             <button className='btn btn-bg-danger' onClick={() => handleClear()}>Clear</button>
 
         </div>
@@ -142,9 +142,9 @@ const Product = () => {
                             return(
                                 <>
                                 <div className='detail_info'>
-                                    <h2>{x.name}</h2>
+                                    <h2>{x.productName}</h2>
                                     <h2>{x.quantity}</h2>
-                                    <h2>{x.createDate}</h2>
+                                    <h2>{x.price}</h2>
                                 </div>
                                 </>
                             )
@@ -163,7 +163,8 @@ const Product = () => {
                                     </div>
                                     <div className='detail'>
                                         <div className='info'>
-                                            <h3>{prod.name}</h3>
+                                            
+                                            <p>{prod.productName}</p>
                                             <p>{prod.price}</p>
 
                                         </div>

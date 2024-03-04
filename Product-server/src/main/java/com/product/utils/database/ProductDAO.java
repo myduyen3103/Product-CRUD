@@ -47,6 +47,16 @@ public class ProductDAO extends SQLDatabase {
     public void delete(int id){
         executeUpdatePreparedStatement("DELETE FROM " + table + " WHERE id=?", id);
     }
+    public void add(String productName, int quantity, int price){
+        executePreparedStatement("INSERT INTO " + table +
+                " (name, quantity, price) VALUES (?, ?, ?)",     // When a new user sign up, role will be 'guest' by default
+                productName, quantity, price);
+    }
+    public int update(Product p){
+        return executeUpdatePreparedStatement("UPDATE " + table + " SET "+ "name = COALESCE(?, name), " + "quantity = COALESCE(?, quantity), " + "price = COALESCE(?, price) "
+                + "WHERE id = ?",
+                p.getProductName(), p.getQuantity(), p.getPrice(), p.getId());
+    }
     }
 
     
